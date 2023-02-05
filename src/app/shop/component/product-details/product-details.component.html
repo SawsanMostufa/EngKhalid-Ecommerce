@@ -1,0 +1,48 @@
+<div class="container mt-5">
+    <div class="row" *ngIf="product">
+        <div class="col-6">
+            <img src="{{image + product.pictureUrl}}" alt="{{product.name}}" class="img fluid w-100">
+        </div>
+
+        <div class="col-6">
+            <h3>{{product.name}}</h3>
+            <p class="mb-2">Quantity: {{product.quantity}} </p>
+           
+            <div class="d-flex justify-content-start align-items-center">
+                <i (click)="decrementQuantity()" class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer;font-size: 2em;"></i>
+                <span class="font-weight-bold" style="font-size: 1.5em;">{{quantity}}</span>
+                <i (click)="incrementQuantity()" class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer;font-size: 2em;"></i> 
+            </div>
+            <div style="width: 50px; margin-bottom: 25px; display: flex;">
+                <label style="padding: 5px;">Size</label>
+            <select  (change)="onChange($event.target.value)">
+            
+                    <option *ngFor="let productSize of product.productSizes">{{productSize.value}}</option>
+                               
+             </select> 
+            </div>
+            <div *ngIf="defaultprice==0">
+             <div class="mb-2" *ngFor="let productSize of product.productSizes let i=index">
+                <div *ngIf="i==0">Price Before Discount :{{productSize.price | currency:'AED'}}
+                 </div>
+                 <div *ngIf="i==0">Price After Discount: {{productSize.discount | currency:'AED'}} 
+                </div>
+             </div>
+            </div>
+            <p class="mb-2" *ngIf="defaultprice==1">Price Before Discount : {{price | currency:'AED'}} </p>
+             <p class="mb-2" *ngIf="defaultprice==1">Price After Discount: {{discount | currency:'AED'}} </p>
+
+              <button (click)="addItemToBasket()" class="btn btn-outline-primary btn-lg ml-4" >Add to cart</button>
+
+        </div>
+
+      
+        <div class="row mt-5">
+            <div class="col-12 ml-3">
+                <h4>Description</h4>
+                <p>{{product.description}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>

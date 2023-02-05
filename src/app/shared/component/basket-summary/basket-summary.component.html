@@ -1,0 +1,115 @@
+<ng-container *ngIf="items.length > 0">
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <th scope="col" [class.bg-light]="isBasket || isOrdered">
+                    Product
+                </th>
+                <th scope="col" [class.bg-light]="isBasket || isOrdered">
+                   Size
+                </th>
+                <th scope="col" [class.bg-light]="isBasket || isOrdered">
+                    price
+                 </th>
+                <th scope="col" [class.bg-light]="isBasket || isOrdered">
+                    Quantity
+                </th>
+                <th scope="col" [class.bg-light]="isBasket || isOrdered">
+                    Total
+                </th>
+                <th scope="col"  scope="col" class="bg-light" *ngIf="isBasket">
+                    Remove
+                </th>
+                
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items">
+                    <th scope="row">
+                        <div class="p-2">
+                            <img src="{{imageUrl + item.pictureUrl}}" alt="{{item.productName}}" class="img-fluid"
+                                style="max-height: 50px;max-width: 50px;">
+                            <div class="ml-3 d-inline-block align-middle">
+                                <h5 class="mb-0" style="font-size: 18px;">
+                                    <a routerLink="/shop/{{item.id}}" class="text-dark">
+                                        {{item.productName}}
+                                    </a>
+                                </h5>
+                                <span *ngIf="item.category" class="text-muted font-weight-normal font-italic d-block" style="font-size: 12px;">
+                                    {{item.category}}
+                                </span>
+                            </div>
+                        </div>
+                    </th>
+                   
+
+                    <td class="align-middle">
+                        <div *ngFor="let productsize of item.productSizes">
+                            {{productsize.value}}
+                        </div>
+                       
+                  </td>
+                  <td class="align-middle">
+                    <div *ngFor="let productsize of item.productSizes">
+                        {{productsize.price | currency:'AED'}}
+                    </div>
+                </td>
+                    <td class="align-middle">
+                        <div *ngFor="let productsize of item.productSizes">                           
+                          
+                                {{productsize.quantity}}
+                                                 
+                        </div>
+                    </td>
+
+                    <td class="align-middle">
+                        <div *ngFor="let productsize of item.productSizes">                           
+                          
+                                {{productsize.quantity*productsize.price | currency:'AED'}}
+                                                 
+                        </div>
+                    </td>
+                   
+
+                    <td class="align-middle" *ngIf="isBasket">
+                        <a class="text-danger">
+                            <i (click)="removeBasketItem(item)" class="fa fa-trash" style="font-size: 2em;"
+                                style="cursor: pointer;font-size: 2em;"></i>
+                         </a>
+                    </td>
+
+
+                    <!-- order -->
+                    <td class="align-middle" *ngIf="isOrdered"><strong>
+                        <div *ngFor="let productsize of item.productSizes">
+                            {{productsize.value}}
+                        </div>
+                       </strong>
+                  </td>
+                  <td class="align-middle" *ngIf="isOrdered">
+                    <div *ngFor="let productsize of item.productSizes">
+                        {{productsize.price | currency:'AED'}}
+                    </div>
+                </td>
+                    <td class="align-middle" *ngIf="isOrdered">
+                        <div *ngFor="let productsize of item.productSizes">                           
+                          
+                                {{productsize.quantity}}
+                                                 
+                        </div>
+                    </td>
+
+                    <td class="align-middle" *ngIf="isOrdered">
+                        <div *ngFor="let productsize of item.productSizes">                           
+                          
+                                {{productsize.quantity*productsize.price}}
+                                                 
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</ng-container>

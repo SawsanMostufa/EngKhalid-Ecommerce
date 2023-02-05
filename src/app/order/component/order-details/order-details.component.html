@@ -1,0 +1,30 @@
+<div class="container mt-5 mb-5">
+
+   <div class="row" *ngIf="order">
+    <div style="margin-bottom:7px;font-weight:block;font-size: 17px;"> Order date : {{order.orderDate | date:'dd/MM/yyyy, h:mm a'}}</div>
+       <div class="col-8">
+            <app-basket-summary
+                [items]="order.orderItems"
+                [isBasket]=false
+                [isOrdered]=true>
+            </app-basket-summary>
+       </div>
+
+       <div class="col-4">
+            <app-order-totals
+                [subtotal]="order.totalAmount"
+                [shippingPrice]="order.shippingPrice"
+                [total]="order.totalAmount">
+            </app-order-totals>
+       </div>
+   </div>
+
+   <div class="row" *ngIf="!order">
+    <div class="col-8">
+        No found order details
+    </div>
+</div>
+
+
+
+</div>

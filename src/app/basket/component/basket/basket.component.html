@@ -1,0 +1,38 @@
+<div class="container mt-2" >
+
+    <div class="row" *ngIf="(basket$ | async) === null ||  (basket$ | async).items.length == 0">
+        <div class="col-xl-12">
+            <div class="card-body text-center" style="color:darkgrey">
+                <p>There are no items in your basket</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="(basket$ | async)">
+        <div class="pd-5">
+            <div class="row">
+                <div class="col-12 py-5 mb-1">
+                   <app-basket-summary
+                        [items]="(basket$ | async).items"
+                        (increment)="incrementItemQuantity($event)"
+                        (decrement)="decrementItemQuantity($event)"
+                        (remove)="removeBasketItem($event)"
+                   ></app-basket-summary>
+                </div>
+            </div>
+            <div class="row mb-5">
+                 <div class="col-6 offset-6">
+                    <app-order-totals
+                        [subtotal]="(basketTotals$ | async).subTotal"
+                        [shippingPrice]="(basketTotals$ | async).shipping"
+                        [total]="(basketTotals$ | async).total">
+                    </app-order-totals>
+                     <button routerLink="/checkout" [disabled]="(basket$ | async).items.length == 0" 
+                        class="btn btn-outline-primary py-2 btn-block" 
+                    >Processd to check out</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+</div>

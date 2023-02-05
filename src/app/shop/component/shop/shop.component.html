@@ -1,0 +1,83 @@
+
+<div class="container mt-3">
+<div class="row">
+
+    <section class="col-3">
+    <ng-container *ngIf="categories">
+        <h5 class="text-warning ml-3 mt-4">Sort</h5>
+        <select class="custom-select mb-3" (change)="onSortSelected($event.target.value)">
+            <option *ngFor="let sort of sortOptions" [value]="sort.value" 
+                    [selected]="shopParams.sort === sort.value">
+                {{sort.name}}
+            </option>  
+        </select>
+
+        <h5 class="text-warning ml-3">Categories</h5>
+        <ul class="list-group my-3">
+            <li>All Category</li>
+            <li class="list-group-item" 
+                *ngFor="let cat of categories"
+                [class.active]="cat.id === this.shopParams.categoryId"
+                [value]="cat.id"
+                (click)="onCategorySelected(cat.id)">
+                {{cat.name}}
+            </li>
+          </ul>
+        </ng-container>
+    </section>
+
+    <section class="col-9">
+        <div class="d-flex justify-content-between align-items-center pd-2">
+            <header>
+                <span *ngIf="totalCount && totalCount > 0">
+                Showing 
+                <strong>
+                    {{(this.shopParams.pageNumber -1) * this.shopParams.pageSize + 1}} - 
+                    {{this.shopParams.pageNumber * this.shopParams.pageSize > this.totalCount 
+                        ? this.totalCount 
+                        : this.shopParams.pageNumber * this.shopParams.pageSize
+                    }}
+                </strong> 
+                 of <strong>{{this.totalCount}}</strong> Result
+                </span>
+                <span *ngIf="totalCount === 0">
+                    There are <strong>0</strong> result for this filter
+                </span>
+                </header>
+            <div class="form-inline mt-2" *ngIf="products">
+                <input type="text" class="form-control mr-2" step="width300px"
+                 placeholder="search"
+                 #search
+                 (keyup.enter)="onSearch()"> 
+                <button class="btn btn-outline-primary my-2" (click)="onSearch()">Search</button>
+                <button class="btn btn-outline-success my-2 ml-2" (click)="onReset()">Reset</button>
+            </div>
+        </div>
+      
+        <div class="row" style="margin-top:60px" *ngIf="products?.length == 0">
+            <div class="col-xl-12">
+                <div class="card-body text-center" style="color:darkgrey">
+                    <p>There are no product in found</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-4 mb-4" *ngFor="let item of products">
+              <app-product-item [product]="item"></app-product-item>
+            </div>
+       </div>
+       <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+            <app-pager
+                [pageSize]="shopParams.pageSize"
+                [pageNumber]="shopParams.pageNumber"
+                [totalCount]="totalCount"
+                (pageChanged)="onPageChange($event)">
+            </app-pager>
+       </div>
+
+    </section>
+</div>
+
+</div>
